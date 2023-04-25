@@ -26,10 +26,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: cd client && npm install && npm run build
-      - name: Install server dependencies
-        run: cd Api && npm install
-      - name: Build server
-        run: cd Api && npm run build
+      - name: server 
+        run: cd Api && npm install && npm run build
+ 
 
 
       
