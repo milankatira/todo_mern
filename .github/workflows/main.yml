@@ -1,14 +1,18 @@
-name: Node.js CI
+name: MERN Stack CI/CD
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+
+env:
+  NODE_ENV: production
 
 jobs:
-  build:
-
+  build-and-test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -16,19 +20,16 @@ jobs:
         node-version: [16.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: cd client && npm install && npm run build
+      - name: Install server dependencies
+        run: cd server && npm install
+      - name: Build server
+        run: cd server && npm run build
 
-    - run: cd ..
-    - run: cd ..
-    - run: cd ..
-    - run: cd Api
-    - run: npm install
-    - run: npm run build
-    - run: cd ..
-    - run: cd client
-    - run: npm install
-    - run: npm run build
+
+      
